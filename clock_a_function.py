@@ -1,10 +1,12 @@
 import time
+from functools import wraps
 def decorator(fptr):
-    def wrapper(*args):
+    @wraps(fptr)
+    def wrapper(*args, **kwds):
         print(f'Measuring time taken to compute {len(args)} numbers')
 
         start_time = time.time()
-        i = fptr(*args)
+        i = fptr(*args, **kwds)
         end_time = time.time()
 
         print(f'Time taken to average {len(args)} numbers is {end_time-start_time}')
@@ -14,6 +16,14 @@ def decorator(fptr):
 
 @decorator
 def average(*args: int)->float:
+    '''
+    This function computes the average of any numbers
+
+    Parameters : int or float 
+
+    returns - float
+    '''
+    
     if len(args) == 0:
         return BaseException
 
